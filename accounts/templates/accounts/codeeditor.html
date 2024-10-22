@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ace Editor Integration</title>
+    <link rel="stylesheet" href="{% static 'css/code_style.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Left section -->
+      <div class="left-section">
+        <div id="editor" style="height: 400px; width: 600px;">Write your program here</div>
+        <button id="get-content">Get Editor Content</button>
+      </div>
+
+      <!-- Right section -->
+      <div class="right-section">
+        <pre id="output"></pre>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.5.3/ace.js"></script>
+
+    <!-- Inline JavaScript -->
+    <script>
+      // Initialize Ace editor
+      let editor = ace.edit("editor", {
+        theme: "ace/theme/cobalt",
+        mode: "ace/mode/python",
+      });
+
+      // Button to get content
+      document.querySelector("#get-content").addEventListener("click", () => {
+        // Get content from Ace editor
+        let content = editor.getValue();
+        
+        // Debugging: Check if content is being fetched correctly
+        console.log("Editor content:", content);
+        
+        // Display the content in the output section
+        document.querySelector("#output").textContent = content;
+      });
+    </script>
+  </body>
+</html>

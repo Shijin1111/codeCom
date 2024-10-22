@@ -33,3 +33,6 @@ def logout_view(request):
 
 def homepage_view(request):
     return render(request,'base.html')
+
+def codeeditor_view(request):
+    return render(request,'accounts/codeeditor.html')
