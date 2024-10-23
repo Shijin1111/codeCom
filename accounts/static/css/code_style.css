@@ -49,11 +49,12 @@ button:hover {
   background-color: #f1f1f1;
   padding: 10px;
   border-radius: 5px;
+  margin: 0px;
 }
 
 .left-section, .right-section {
   flex: 1; /* Each section takes up half of the width */
-  padding: 20px;
+  padding: 0px;
   box-sizing: border-box;
 }
 
