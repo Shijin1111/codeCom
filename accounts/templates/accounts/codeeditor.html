@@ -21,28 +21,43 @@
         <pre id="output"></pre>
       </div>
     </div>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.5.3/ace.js"></script>
 
     <!-- Inline JavaScript -->
-    <script>
-      // Initialize Ace editor
-      let editor = ace.edit("editor", {
-        theme: "ace/theme/cobalt",
-        mode: "ace/mode/python",
-      });
+<!-- Inline JavaScript -->
+<script>
+  // Initialize Ace editor
+  let editor = ace.edit("editor", {
+    theme: "ace/theme/cobalt",
+    mode: "ace/mode/python",
+  });
 
-      // Button to get content
-      document.querySelector("#get-content").addEventListener("click", () => {
-        // Get content from Ace editor
-        let content = editor.getValue();
-        
-        // Debugging: Check if content is being fetched correctly
-        console.log("Editor content:", content);
-        
-        // Display the content in the output section
-        document.querySelector("#output").textContent = content;
-      });
-    </script>
+  // Button to get content
+  document.querySelector("#get-content").addEventListener("click", (event) => {
+    event.preventDefault(); // Prevent default form submission
+    // Get content from Ace editor
+    const message = editor.getValue();
+    if (message.length === 0) {
+      return;
+    }
+    // Send the message to the server
+    fetch('', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        'message': message
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      const response = data.response;
+      document.querySelector('#output').textContent = ` ${response}`;
+    });
+  }); 
+</script>
+
   </body>
 </html>
