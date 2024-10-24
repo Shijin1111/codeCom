@@ -1,2 +1,0 @@
-pip install django
-pip install google.generativeai
