@@ -13,7 +13,7 @@
       <!-- Left section -->
       <div class="left-section">
         <div id="editor" style="height: 400px; width: 600px;">Write your program here</div>
-        <button id="get-content">Get Editor Content</button>
+        <button id="opt-button">Get Editor Content</button>
       </div>
 
       <!-- Right section -->
@@ -35,7 +35,7 @@
   });
 
   // Button to get content
-  document.querySelector("#get-content").addEventListener("click", (event) => {
+  document.querySelector("#opt-button").addEventListener("click", (event) => {
     event.preventDefault(); // Prevent default form submission
     // Get content from Ace editor
     const message = editor.getValue();
