@@ -38,6 +38,12 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  flex-shrink: 0;
+}
+
+.button-container {
+  display: flex;  /* Ensure buttons are on the same line */
+  gap: 10px; /* Add some space between the buttons */
 }
 
 button:hover {

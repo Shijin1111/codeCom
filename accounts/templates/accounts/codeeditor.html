@@ -13,7 +13,10 @@
       <!-- Left section -->
       <div class="left-section">
         <div id="editor" style="height: 400px; width: 600px;">Write your program here</div>
-        <button id="opt-button">Get Editor Content</button>
+        <div class="button-container">
+          <button id="com-button">Find complexity</button>
+          <button id="opt-button">Optimize code</button>
+        </div>
       </div>
 
       <!-- Right section -->
@@ -32,6 +35,26 @@
   let editor = ace.edit("editor", {
     theme: "ace/theme/cobalt",
     mode: "ace/mode/python",
+  });
+
+  document.querySelector("#com-button").addEventListener("click", (event) => {
+    event.preventDefault();
+    const message = editor.getValue();
+    if (message.length === 0) {
+      return;
+    }
+    fetch('{% url "complexity_bot" %}', {  
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        'message': message
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.querySelector('#output').textContent = `Complexity analysis: ${data.response}`;
+    });
   });
 
   // Button to get content

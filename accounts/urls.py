@@ -7,4 +7,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('',views.homepage_view,name="home"),
     path('codeeditor/',views.chatbot,name="codeeditor"),
+    path('complexity/', views.complexity_bot, name='complexity_bot')
 ]
