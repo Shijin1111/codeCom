@@ -2,9 +2,36 @@
 <html>
 <head>
     <title>Add Note</title>
+    <style>
+        body {
+            background-color: #333; /* Dark background */
+            color: white; /* Text color for readability */
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #f2f2f2; /* Light heading */
+        }
+        form {
+            background-color: #444; /* Slightly lighter background for form */
+            padding: 20px;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #555; /* Button background */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #666; /* Button hover effect */
+        }
+    </style>
 </head>
 <body>
-    <h1>Add a New Note</h1>
+    <h1>New note</h1>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
