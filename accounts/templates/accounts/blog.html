@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -81,6 +81,113 @@
         </div>
     {% empty %}
         <p>No notes available</p>
+    {% endfor %}
+    </div>
+
+    <div class="footer-link">
+        <a href="{% url 'add_note' %}" class="add-note-button">
+            <i class="fas fa-plus"></i> Add a new note
+        </a>
+    </div>
+</body>
+</html>
+ {% endcomment %}
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Notes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: black;
+        }
+        h1 {
+            color: #1a0dab;
+            text-align: center;
+            margin-bottom: 0; 
+        }
+        a.add-note-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 20px auto;
+            text-align: center;
+        }
+        a.add-note-button:hover {
+            background-color: #0056b3;
+        }
+        .note-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #e1e1e1;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .note-container h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+        .note-container h2 a {
+            color: #1a0dab;
+            text-decoration: none;
+        }
+        .note-container h2 a:hover {
+            text-decoration: underline;
+        }
+        .subheading {
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .content {
+            color: #545454;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer-link a {
+            text-decoration: none;
+            color: white;
+        }
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>BLOG</h1>
+    <a href="{% url 'add_note' %}" class="add-note-button">
+        <i class="fas fa-pen"></i> Add Note
+    </a>
+
+    <div>
+    {% for note in notes %}
+        <div class="note-container">
+            <h2><a href="{% url 'note_detail' note.id %}">{{ note.title }}</a></h2> <!-- Clickable note title -->
+            
+            <!-- Loop through subheadings for each note -->
+            {% for subheading in note.subheadings.all %}
+                <div class="subheading">{{ subheading.heading }}</div>
+                <p class="content">{{ subheading.content|linebreaks }}</p> <!-- Display full content with line breaks -->
+            {% endfor %}
+        </div>
+    {% empty %}
+        <p style="color: white; text-align: center;">No notes available</p>
     {% endfor %}
     </div>
 

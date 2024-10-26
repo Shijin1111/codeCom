@@ -118,12 +118,38 @@ def note_detail(request, id):
     note = get_object_or_404(Note, id=id)
     return render(request, 'accounts/note_detail.html', {'note': note})
 
+# def add_note(request):
+#     if request.method == 'POST':
+#         form = NoteForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('blog')
+#     else:
+#         form = NoteForm()
+#     return render(request, 'accounts/add_note.html', {'form': form})
+
+
+from django.shortcuts import render, redirect
+from .forms import NoteForm, SubheadingFormSet
+
 def add_note(request):
     if request.method == 'POST':
-        form = NoteForm(request.POST)
-        if form.is_valid():
-            form.save()
+        note_form = NoteForm(request.POST)
+        subheading_formset = SubheadingFormSet(request.POST)
+        
+        if note_form.is_valid() and subheading_formset.is_valid():
+            note = note_form.save()
+            subheadings = subheading_formset.save(commit=False)
+            for subheading in subheadings:
+                subheading.note = note
+                subheading.save()
             return redirect('blog')
     else:
-        form = NoteForm()
-    return render(request, 'accounts/add_note.html', {'form': form})
+        note_form = NoteForm()
+        subheading_formset = SubheadingFormSet()
+    
+    return render(request, 'accounts/add_note.html', {
+        'note_form': note_form,
+        'subheading_formset': subheading_formset
+    })
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html>
 <head>
     <title>Add Note</title>
@@ -35,6 +35,75 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+        <button type="submit">Add Note</button>
+    </form>
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Note</title>
+    <style>
+        body {
+            background-color: #333;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #f2f2f2;
+        }
+        form {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #666;
+        }
+        .subheading-group {
+            background-color: #555;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        function addSubheading() {
+            let formset = document.getElementById('subheading-formset');
+            let newForm = formset.firstElementChild.cloneNode(true);
+            newForm.querySelectorAll('input, textarea').forEach(input => input.value = '');
+            formset.appendChild(newForm);
+        }
+    </script>
+</head>
+<body>
+    <h1>New Note</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ note_form.as_p }}
+        
+        <!-- Management form required for formset -->
+        {{ subheading_formset.management_form }}
+
+        <div id="subheading-formset">
+            {% for form in subheading_formset %}
+                <div class="subheading-group">
+                    {{ form.heading.label_tag }} {{ form.heading }}
+                    {{ form.content.label_tag }} {{ form.content }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <button type="button" onclick="addSubheading()">Add Subheading</button>
         <button type="submit">Add Note</button>
     </form>
 </body>

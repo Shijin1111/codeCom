@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -52,5 +52,86 @@
         <pre>{{ note.body }}</pre> <!-- Display the full note -->
     </div>
     <a href="{% url 'blog' %}">Back to Notes</a>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ note.title }}</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .note-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh; /* Full viewport height */
+        }
+        .note {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow-y: auto;
+            word-wrap: break-word;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #333;
+            text-align: center;
+        }
+        h2 {
+            color: #007bff;
+            font-size: 1.4rem;
+            margin-top: 20px;
+        }
+        p {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="note-container">
+        <h1>{{ note.title }}</h1>
+        <div class="note">
+            <!-- Display the main note body, if it exists -->
+            {% if note.body %}
+                <p>{{ note.body }}</p>
+            {% endif %}
+
+            <!-- Display each subheading with its content -->
+            {% for subheading in note.subheadings.all %}
+                <h2>{{ subheading.heading }}</h2>
+                <p>{{ subheading.content|linebreaks }}</p>
+            {% endfor %}
+        </div>
+        <a href="{% url 'blog' %}">Back to Notes</a>
+    </div>
 </body>
 </html>
