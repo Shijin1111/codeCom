@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ note.heading }}</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .note-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%; /* Make the container take up the full viewport height */
+            background-color: #f9f9f9; /* Light background */
+        }
+        .note {
+            width: 100%;
+            max-width: 100%; /* Maximum width of the note */
+            height: 80%; /* Limit height of the note */
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow-y: auto; /* Add scrolling within the note if content exceeds the container */
+            word-wrap: break-word; /* Allow words to wrap within the container */
+        }
+        h1 {
+            margin: 0;
+            padding: 10px 0;
+        }
+        a {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ note.heading }}</h1>
+    <div class="note">
+        <pre>{{ note.body }}</pre> <!-- Display the full note -->
+    </div>
+    <a href="{% url 'blog' %}">Back to Notes</a>
+</body>
+</html>

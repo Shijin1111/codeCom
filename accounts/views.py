@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
 from django.http import JsonResponse
+
+from .models import Note
+from .forms import NoteForm
+
 import os
 import google.generativeai as genai
 
@@ -105,3 +108,22 @@ def logout_view(request):
 def homepage_view(request):
     return render(request,'base.html')
 
+
+
+def blog(request):
+    notes = Note.objects.all()
+    return render(request, 'accounts/blog.html', {'notes': notes})
+
+def note_detail(request, id):
+    note = get_object_or_404(Note, id=id)
+    return render(request, 'accounts/note_detail.html', {'note': note})
+
+def add_note(request):
+    if request.method == 'POST':
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('blog')
+    else:
+        form = NoteForm()
+    return render(request, 'accounts/add_note.html', {'form': form})

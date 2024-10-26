@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f2f2f2;
+        }
+        .search-result {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #e1e1e1;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .search-result h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+        .search-result h2 a {
+            color: #1a0dab;
+            text-decoration: none;
+        }
+        .search-result h2 a:hover {
+            text-decoration: underline;
+        }
+        .snippet {
+            color: #545454;
+            font-size: 0.9rem;
+        }
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer-link a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Notes</h1>
+    <a href="{% url 'add_note' %}">Add Note</a>
+
+    <div>
+    {% for note in notes %}
+        <div class="search-result">
+            <h2><a href="{% url 'note_detail' note.id %}">{{ note.heading }}</a></h2> <!-- Clickable heading -->
+            <p class="snippet">{{ note.body|slice:":200" }}...</p> <!-- Snippet of the note body -->
+        </div>
+    {% empty %}
+        <p>No notes available</p>
+    {% endfor %}
+    </div>
+
+    <div class="footer-link">
+        <a href="{% url 'add_note' %}">Add a new note</a>
+    </div>
+</body>
+</html>
