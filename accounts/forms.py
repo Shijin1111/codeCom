@@ -16,4 +16,4 @@ class NoteForm(forms.ModelForm):
         model = Note
         fields = ['title']
 
-SubheadingFormSet = inlineformset_factory(Note, Subheading, fields=('heading', 'content'), extra=1,can_delete=False)
+SubheadingFormSet = inlineformset_factory(Note, Subheading, fields=('heading', 'content'), extra=3,can_delete=False)

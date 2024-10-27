@@ -104,26 +104,28 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: black;
+            background-color: black; /* Background color */
+            color: white; /* Default text color */
         }
         h1 {
-            color: #1a0dab;
+            color: #1a0dab; /* Heading color */
             text-align: center;
-            margin-bottom: 0; 
+            margin-bottom: 20px; 
+            font-size: 2.5rem; /* Increased font size */
         }
         a.add-note-button {
             display: inline-block;
-            background-color: #007bff;
-            color: white;
+            background-color: #007bff; /* Button background */
+            color: white; /* Button text color */
             padding: 10px 20px;
             border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s;
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s; /* Smooth background transition */
             margin: 20px auto;
             text-align: center;
         }
         a.add-note-button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Darker blue on hover */
         }
         .note-container {
             max-width: 800px;
@@ -143,29 +145,27 @@
             text-decoration: none;
         }
         .note-container h2 a:hover {
-            text-decoration: underline;
+            text-decoration: underline; /* Underline on hover */
         }
         .subheading {
-            color: #333;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-top: 15px;
+            color: black; /* Subheading text color */
+            font-size: 1rem; /* Font size for subheading */
+            margin: 5px 0; /* Margin around subheading */
         }
         .content {
             color: #545454;
             font-size: 0.9rem;
-            margin-bottom: 10px;
         }
         .footer-link {
-            text-align: center;
-            margin-top: 20px;
+            text-align: center; /* Center the footer link */
+            margin-top: 20px; /* Margin at the top */
         }
         .footer-link a {
-            text-decoration: none;
-            color: white;
+            text-decoration: none; /* Remove underline */
+            color: white; /* Footer link color */
         }
         .footer-link a:hover {
-            text-decoration: underline;
+            text-decoration: underline; /* Underline on hover */
         }
     </style>
 </head>
@@ -180,11 +180,12 @@
         <div class="note-container">
             <h2><a href="{% url 'note_detail' note.id %}">{{ note.title }}</a></h2> <!-- Clickable note title -->
             
-            <!-- Loop through subheadings for each note -->
-            {% for subheading in note.subheadings.all %}
-                <div class="subheading">{{ subheading.heading }}</div>
-                <p class="content">{{ subheading.content|linebreaks }}</p> <!-- Display full content with line breaks -->
-            {% endfor %}
+            <!-- Check if there are any subheadings, and display the first one -->
+            {% if note.subheadings.all %}
+                <div class="content" >{{ note.subheadings.all.0.content|linebreaks }}</div> <!-- Display content of the first subheading -->
+            {% else %}
+                <p>No subheadings available for this note.</p> <!-- Message if there are no subheadings -->
+            {% endif %}
         </div>
     {% empty %}
         <p style="color: white; text-align: center;">No notes available</p>

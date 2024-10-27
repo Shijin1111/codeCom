@@ -40,3 +40,10 @@ a {
 li {
     color: aliceblue;
 }
+
+
+.errorlist li {
+    color: black; /* Sets error message color to black */            
+    font-weight: bold; /* Optional: make errors bold for emphasis */
+}
+

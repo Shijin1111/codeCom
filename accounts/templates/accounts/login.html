@@ -2,13 +2,16 @@
 {% block body_block %}
 <div class="jumbotron">
     <h2>Please Login</h2>
-    <h3>(Must be a superuser,Please check with site admin)</h3>
+    <h3>(Please register if you don't have an account)</h3>
     {% if form.errors %}
     <p>Your username and password doesn't match.please try again.</p>
     {% endif %}
     <form action="{% url "login" %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+        <a href="{% url 'signup' %}"  style="color: rgb(160, 3, 110); margin-right: 15px;">
+            <i class="fas fa-user-plus glyphicone-color" style="color: rgb(160, 3, 110); "></i><B> SIGN UP </B>
+        </a>
         <input type="submit" class="btn btn-primary" value="Login">
         <input type="hidden" name="next" value="{{next}}">
     </form>

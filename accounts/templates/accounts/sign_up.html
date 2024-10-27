@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block body_block %}
+<div class="container mt-5">
+    <h2 class="text-center" style="color: rgb(160, 3, 110);">Register</h2>
+    <div class="card mx-auto" style="max-width: 1000px;">
+        <div class="card-body">
+            <form action="{% url 'signup' %}" method="post">
+                {% csrf_token %}
+                
+                <!-- Manually rendering fields without help text -->
+                <div class="mb-3">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.password1.label_tag }}
+                    {{ form.password1 }}
+                    {{ form.password1.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.password2.label_tag }}
+                    {{ form.password2 }}
+                    {{ form.password2.errors }}
+                </div>
+
+                <div class="text-center mt-3">
+                    <input type="submit" class="btn btn-primary" value="Register">
+                </div>
+            </form>
+        </div>
+    </div>
+    <p class="text-center mt-3" style="color:white;">
+        Already have an account? <a href="{% url 'login' %}" style="color: rgb(160, 3, 110);">Log in</a>
+    </p>
+</div>
+{% endblock %}

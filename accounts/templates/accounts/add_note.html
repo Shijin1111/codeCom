@@ -39,6 +39,7 @@
     </form>
 </body>
 </html> {% endcomment %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,10 +91,7 @@
     <form method="POST">
         {% csrf_token %}
         {{ note_form.as_p }}
-        
-        <!-- Management form required for formset -->
-        {{ subheading_formset.management_form }}
-
+         {{ subheading_formset.management_form }}
         <div id="subheading-formset">
             {% for form in subheading_formset %}
                 <div class="subheading-group">
