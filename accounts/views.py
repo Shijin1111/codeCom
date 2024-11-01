@@ -164,3 +164,74 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'accounts/sign_up.html', {'form': form})
+
+
+import subprocess
+from django.shortcuts import render,get_object_or_404
+from .forms import PythonCodeForm
+from .models import CodeExecution
+from django.utils.html import escape
+
+def execute_python_code(code, input_data, timeout=5):
+    try:
+        process = subprocess.Popen(
+            ['python', '-c', code],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            universal_newlines=True,
+            errors='ignore'
+        )
+        output, error = process.communicate(input=input_data, timeout=timeout)
+
+        if process.returncode == 0:
+            return output
+        else:
+            return error
+    except subprocess.TimeoutExpired:
+        return "Execution timed out."
+    except Exception as e:
+        return str(e)
+
+def save_code_execution(code, input_data, output):
+    CodeExecution.objects.create(code=code, input_data=input_data, output=output)
+
+
+
+def compile_and_execute(request, problem_id):
+    output = None
+
+    # Fetch the problem using the provided problem_id
+    problem = get_object_or_404(Problem, id=problem_id)
+
+    # Set default code
+    code = "print('Hello, World!')"  # Default code example
+    input_data = ""
+    if request.method == "POST":
+        # Get the code from the form submission
+        code = request.POST.get("code", code)  # Retrieve code from POST, fallback to default
+        input_data = request.POST.get("input_data", "")  # Optional input data if required
+
+        # Execute the code
+        try:
+            output = execute_python_code(code, input_data)  # Call your execute function here
+            save_code_execution(code, input_data, output)  # Log the execution result if needed
+        except subprocess.TimeoutExpired:
+            output = 'Execution timed out.'
+        except Exception as e:
+            output = str(e)
+
+    # Pass the code along with output, input_data, and problem to the template
+    return render(request, 'accounts/problems/compile.html', {
+        'output': output,
+        'code': escape(code),  # Pass code back to template to retain it
+        'input_data': escape(input_data),
+        'problem': problem
+    })
+    
+from .models import Problem
+
+def problem_list(request):
+    problems = Problem.objects.all()  # Retrieve all Problem objects
+    return render(request, 'accounts/problems/problem_list.html', {'problems': problems})  # Pass them to the template

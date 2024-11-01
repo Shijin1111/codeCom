@@ -12,4 +12,6 @@ urlpatterns = [
     path('blog/<int:id>/', views.note_detail, name='note_detail'),
     path('addnote/', views.add_note, name='add_note'),
     path('signup/', views.signup, name='signup'),
+    path('problem_list',views.problem_list, name='problem_list'),  # URL to view the list of problems
+    path('compile/<int:problem_id>/', views.compile_and_execute, name='compile_page'),  # URL for the compile page
 ]

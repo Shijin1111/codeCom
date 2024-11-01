@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy6pBPeRTEvIUcUBeTw6pBZlQ7SEPOF7j6" crossorigin="anonymous">
+
+    <title>Python Code Compiler</title>
+    <style>
+        /* General styling for the container div */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Styling for the left div (Problem Statement) */
+        .problem-statement {
+            flex: 1;
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling for the image */
+        .problem-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+
+        /* Styling for the right div (Code Compiler) */
+        .code-compiler {
+            flex: 1;
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea[name="code"],
+        textarea[name="input_data"] {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #3a3a3a;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+            background-color: #333;
+            color: #d4d4d4;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            height: 150px;
+        }
+
+        button {
+            background-color: #4ec9b0;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #47b49d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #4ec9b0;
+            text-align: center;
+        }
+        
+        .problem-description {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #4ec9b0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: none; 
+            overflow: visible; /* Allow scrolling if content is too long */
+        }
+
+        .output-section {
+            margin-top: 20px; /* Add some space above the output section */
+            padding: 15px;
+            border: 1px solid #4ec9b0;
+            border-radius: 8px;
+            background-color: #333; /* Dark background for the output area */
+            color: #d4d4d4;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            white-space: pre-wrap; /* Maintain whitespace formatting */
+        }
+        
+    </style>
+</head>
+
+<body>
+    <h2>{{ problem.title }}</h2>
+
+    <div class="container">
+        <!-- Problem Statement Section (Left) -->
+        <div class="problem-statement">
+            <h3>Problem statement</h3>
+            <div class="problem-description">{{ problem.description|linebreaks }}</div>
+            {% if problem.img %}
+                <img src="{{ problem.img.url }}" alt="Problem Image" class="problem-image">
+            {% endif %}
+        </div>
+
+        <!-- Code Compiler Section (Right) -->
+        <div class="code-compiler">
+            <h3>Code Compiler</h3>
+            <form method="post" id="code-form">
+                {% csrf_token %}
+                <textarea name="code" placeholder="Enter Python code...">{{ code }}</textarea>
+                <button type="submit">Run</button>
+                <button type="submit" id="com-button">Time complexity</button>
+            </form>
+
+            <!-- Output Section -->
+            {% if output %}
+                <div class="output-section">
+                    <h4>Output:</h4>
+                    <pre>{{ output }}</pre> <!-- Use <pre> to preserve formatting -->
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+        integrity="sha384-7t0I5S1vbLw+lt3FfW6vq0Go0iKw3sp5Vgs1a2yo/BzQ6G6r7UHDrt94I2Hs0RJ"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy6pBPeRTEvIUcUBeTw6pBZlQ7SEPOF7j6"
+        crossorigin="anonymous"></script>
+    <script>
+        document.querySelector("#com-button").addEventListener("click", (event) => {
+            event.preventDefault();
+            const codeTextarea = document.querySelector("textarea[name='code']");
+            const message = codeTextarea.value;
+            if (message.length === 0) {
+              return;
+            }
+            fetch('{% url "complexity_bot" %}', {  
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams({
+                'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'message': message
+              })
+            })
+            .then(response => response.json())
+            .then(data => {
+              document.querySelector('.output-section').textContent = `Complexity analysis: ${data.response}`;
+            });
+          });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: black; /* Dark background color */
+            color: #ffffff; /* White text color */
+        }
+        .list-group-item {
+            background-color: #495057; /* Darker item background */
+            color: #ffffff; /* White text color for items */
+        }
+        .list-group-item:hover {
+            background-color: #6c757d; /* Lighten background on hover */
+            color: #ffffff; /* Ensure text remains white on hover */
+        }
+        .alert {
+            background-color: #6c757d; /* Dark alert background */
+            color: #ffffff; /* White text color for alerts */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">Problem List</h1>
+        <div class="list-group">
+            {% for problem in problems %}
+                <a href="{% url 'compile_page' problem.id %}" class="list-group-item list-group-item-action">
+                    {{ problem.title }}
+                </a>
+            {% empty %}
+                <div class="alert alert-warning text-center">No problems available.</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

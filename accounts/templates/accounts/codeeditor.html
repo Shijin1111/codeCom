@@ -42,7 +42,7 @@
     theme: "ace/theme/cobalt",
     mode: "ace/mode/python",
   });
-
+  
   document.querySelector("#com-button").addEventListener("click", (event) => {
     event.preventDefault();
     const message = editor.getValue();
@@ -62,7 +62,7 @@
       document.querySelector('#output').textContent = `Complexity analysis: ${data.response}`;
     });
   });
-
+  
   // Button to get content
   document.querySelector("#opt-button").addEventListener("click", (event) => {
     event.preventDefault(); // Prevent default form submission
