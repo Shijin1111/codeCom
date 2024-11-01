@@ -72,7 +72,7 @@ def ask_openai(message):
     ]
     )
     
-    res = chat_session.send_message(f"{message}reduce the time complexity of this code using any method.")
+    res = chat_session.send_message(f"{message}Do this with less time complexity")
     print(res)
     return res.text
 

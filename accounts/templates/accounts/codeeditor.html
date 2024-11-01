@@ -13,12 +13,13 @@
       integrity="sha384-oi8lKHJqY5Gz6v6ojfvnby6Tg2FL9IS+0ErklLHzP0WI7F0TfGyDRD3H9mTFq4/x"
       crossorigin="anonymous"
     />
+    
   </head>
-  <body>
+  <body bgcolor="black">
     <div class="container">
       <!-- Left section -->
       <div class="left-section">
-        <div id="editor" style="height: 400px; width: 600px;">Write your program here</div>
+        <div id="editor" style="height: 85%; width: 600px;">Write your program here</div>
         <div class="button-container">
           <button id="com-button">Find complexity</button>
           <button id="opt-button">Optimize code</button>
@@ -27,7 +28,7 @@
 
       <!-- Right section -->
       <div class="right-section">
-        <pre id="output"></pre>
+        <pre id="output" style="background-color: black;color: white;padding: 10px;border-radius: 5px;margin: 0px;font-size:16px"></pre>
       </div>
     </div>
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">

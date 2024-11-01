@@ -52,13 +52,15 @@ button:hover {
 
 #output {
   white-space: pre-wrap; /* Ensures the output keeps line breaks */
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
+  background-color: black;
+  color: white; 
   padding: 10px;
   border-radius: 5px;
   margin: 0px;
 }
 
-.left-section, .right-section {
+.left-section {
   flex: 1; /* Each section takes up half of the width */
   padding: 0px;
   box-sizing: border-box;
