@@ -42,8 +42,8 @@ li {
 }
 
 
-.errorlist li {
-    color: black; /* Sets error message color to black */            
+.errorlist , .errorlist li {
+    color: rgb(255, 255, 255); /* Sets error message color to black */            
     font-weight: bold; /* Optional: make errors bold for emphasis */
 }
 

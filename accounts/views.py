@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.http import JsonResponse
@@ -40,6 +41,7 @@ def find_complexity(message):
     print(res)
     return res.text
 
+@login_required
 def chatbot(request):
     if request.method == 'POST':
         message = request.POST.get('message')
@@ -79,37 +81,37 @@ def ask_openai(message):
 
 
 # Custom login view to handle login form rendering
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+# def login_view(request):
+#     if request.method == 'POST':
+#         form = AuthenticationForm(request, data=request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             user = authenticate(username=username, password=password)
 
-            if user is not None:
-                login(request, user)
-                return HttpResponseRedirect(reverse('home'))  # Redirect to a protected page after login
-            else:
-                form.add_error(None, "Invalid credentials")
-        else:
-            form.add_error(None, "Invalid credentials")
+#             if user is not None:
+#                 login(request, user)
+#                 return HttpResponseRedirect(reverse('home'))  # Redirect to a protected page after login
+#             else:
+#                 form.add_error(None, "Invalid credentials")
+#         else:
+#             form.add_error(None, "Invalid credentials")
 
-    else:
-        form = AuthenticationForm()
+#     else:
+#         form = AuthenticationForm()
 
-    return render(request, 'accounts/login.html', {'form': form})
+#     return render(request, 'accounts/login.html', {'form': form})
 
 # Custom logout view
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('login'))  # Redirect to login page after logout
+# def logout_view(request):
+#     logout(request)
+#     return HttpResponseRedirect(reverse('login'))  # Redirect to login page after logout
 
 def homepage_view(request):
     return render(request,'base.html')
 
 
-
+@login_required
 def blog(request):
     notes = Note.objects.all()
     return render(request, 'accounts/blog.html', {'notes': notes})
@@ -231,7 +233,7 @@ def compile_and_execute(request, problem_id):
     })
     
 from .models import Problem
-
+@login_required
 def problem_list(request):
     problems = Problem.objects.all()  # Retrieve all Problem objects
     return render(request, 'accounts/problems/problem_list.html', {'problems': problems})  # Pass them to the template
