@@ -1,0 +1,2 @@
+django==4.2.6
+generativeai==0.3.0
