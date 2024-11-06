@@ -6,8 +6,11 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.http import JsonResponse
 
-from .models import Note
-from .forms import NoteForm
+from .models import Note,CodeExecution
+from .forms import NoteForm, SubheadingFormSet,PythonCodeForm
+
+import subprocess
+from django.utils.html import escape
 
 import os
 import google.generativeai as genai
@@ -79,34 +82,6 @@ def ask_openai(message):
     return res.text
 
 
-
-# Custom login view to handle login form rendering
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = AuthenticationForm(request, data=request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(username=username, password=password)
-
-#             if user is not None:
-#                 login(request, user)
-#                 return HttpResponseRedirect(reverse('home'))  # Redirect to a protected page after login
-#             else:
-#                 form.add_error(None, "Invalid credentials")
-#         else:
-#             form.add_error(None, "Invalid credentials")
-
-#     else:
-#         form = AuthenticationForm()
-
-#     return render(request, 'accounts/login.html', {'form': form})
-
-# Custom logout view
-# def logout_view(request):
-#     logout(request)
-#     return HttpResponseRedirect(reverse('login'))  # Redirect to login page after logout
-
 def homepage_view(request):
     return render(request,'base.html')
 
@@ -118,21 +93,7 @@ def blog(request):
 
 def note_detail(request, id):
     note = get_object_or_404(Note, id=id)
-    return render(request, 'accounts/note_detail.html', {'note': note})
-
-# def add_note(request):
-#     if request.method == 'POST':
-#         form = NoteForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('blog')
-#     else:
-#         form = NoteForm()
-#     return render(request, 'accounts/add_note.html', {'form': form})
-
-
-from django.shortcuts import render, redirect
-from .forms import NoteForm, SubheadingFormSet
+    return render(request, 'accounts/note_detail.html', {'note': note}) 
 
 def add_note(request):
     if request.method == 'POST':
@@ -168,11 +129,6 @@ def signup(request):
     return render(request, 'accounts/sign_up.html', {'form': form})
 
 
-import subprocess
-from django.shortcuts import render,get_object_or_404
-from .forms import PythonCodeForm
-from .models import CodeExecution
-from django.utils.html import escape
 
 def execute_python_code(code, input_data, timeout=5):
     try:

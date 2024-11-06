@@ -1,99 +1,4 @@
-{% comment %} <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Notes</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: black;
-        }
-        h1 {
-            color: #1a0dab;
-            text-align: center;
-            margin-bottom: 0; 
-        }
-        a.add-note-button {
-            display: inline-block;
-            background-color: #007bff; /* Button background */
-            color: white; /* Button text color */
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none; /* Remove underline */
-            transition: background-color 0.3s; /* Smooth background transition */
-            margin: 20px auto;
-            text-align: center;
-        }
-        a.add-note-button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-        }
-        .search-result {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            border: 1px solid #e1e1e1;
-            border-radius: 5px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .search-result h2 {
-            margin: 0 0 10px 0;
-            font-size: 1.5rem;
-        }
-        .search-result h2 a {
-            color: #1a0dab;
-            text-decoration: none;
-        }
-        .search-result h2 a:hover {
-            text-decoration: underline;
-        }
-        .snippet {
-            color: #545454;
-            font-size: 0.9rem;
-        }
-        .footer-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .footer-link a {
-            text-decoration: none;
-            color: white;
-        }
-        .footer-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <h1>BLOG</h1>
-    <a href="{% url 'add_note' %}" class="add-note-button">
-        <i class="fas fa-pen"></i> Add Note <!-- Font Awesome plus icon -->
-    </a>
-
-    <div>
-    {% for note in notes %}
-        <div class="search-result">
-            <h2><a href="{% url 'note_detail' note.id %}">{{ note.heading }}</a></h2> <!-- Clickable heading -->
-            <p class="snippet">{{ note.body|slice:":200" }}...</p> <!-- Snippet of the note body -->
-        </div>
-    {% empty %}
-        <p>No notes available</p>
-    {% endfor %}
-    </div>
-
-    <div class="footer-link">
-        <a href="{% url 'add_note' %}" class="add-note-button">
-            <i class="fas fa-plus"></i> Add a new note
-        </a>
-    </div>
-</body>
-</html>
- {% endcomment %}
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -128,7 +33,7 @@
             background-color: #0056b3; /* Darker blue on hover */
         }
         .note-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 20px auto;
             padding: 20px;
             background-color: white;
@@ -155,6 +60,12 @@
         .content {
             color: #545454;
             font-size: 0.9rem;
+            {% comment %} max-height: 4.5em; /* Restrict height to about 4 lines */ {% endcomment %}
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4; /* Show only 4 lines */
+            -webkit-box-orient: vertical;
         }
         .footer-link {
             text-align: center; /* Center the footer link */
