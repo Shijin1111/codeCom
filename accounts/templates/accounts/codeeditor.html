@@ -35,8 +35,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.5.3/ace.js"></script>
 
-    <!-- Inline JavaScript -->
-<!-- Inline JavaScript -->
+
 <script>
   // Initialize Ace editor
   let editor = ace.edit("editor", {
@@ -64,10 +63,8 @@
     });
   });
   
-  // Button to get content
   document.querySelector("#opt-button").addEventListener("click", (event) => {
     event.preventDefault(); // Prevent default form submission
-    // Get content from Ace editor
     const message = editor.getValue();
     if (message.length === 0) {
       return;

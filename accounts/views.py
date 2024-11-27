@@ -77,7 +77,7 @@ def ask_openai(message):
     ]
     )
     
-    res = chat_session.send_message(f"{message}Do this with less time complexity")
+    res = chat_session.send_message(f"{message}Do this code with less time complextiy and output only the code and no explanation.Use methods like dynamic programming,divide and conquer,backtracikng etc to do so.Output the code as text not in ```")
     print(res)
     return res.text
 

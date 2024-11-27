@@ -27,8 +27,8 @@ class CodeExecution(models.Model):
 
 
 class Problem(models.Model):
-    title = models.CharField(max_length=200)  # Field for the problem title
-    description = models.TextField()           # Field for the problem description
-    img = models.ImageField(upload_to='problems/', blank=True, null=True)  # Optional field for an image
-    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for when the problem was created
-    updated_at = models.DateTimeField(auto_now=True)       # Timestamp for when the problem was last updated
+    title = models.CharField(max_length=200)  
+    description = models.TextField()           
+    img = models.ImageField(upload_to='problems/', blank=True, null=True)  
+    created_at = models.DateTimeField(auto_now_add=True)  
+    updated_at = models.DateTimeField(auto_now=True)   
