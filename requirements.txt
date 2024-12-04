@@ -5,6 +5,5 @@ generativeai==0.3.0
 asgiref==3.7.2  # Ensure compatibility with Django's ASGI interface
 gunicorn==20.1.0  # Production WSGI server
 whitenoise==6.5.0  # Serve static files
-psycopg2-binary==2.9.6  # Only needed if you're using PostgreSQL (remove if using SQLite)
 pytz==2023.3  # For timezone support (comes with Django)
 sqlparse==0.4.4  # Comes with Django
