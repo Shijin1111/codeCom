@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="jumbotron">
+<div class="jumbotron" style="height: 45vh; display: flex; justify-content: center; align-items: center; flex-direction: column;">
     <h2>Please Login</h2>
     <h3>(Please register if you don't have an account)</h3>
     {% if form.errors %}
     <p>Your username and password doesn't match.please try again.</p>
     {% endif %}
-    <form action="{% url "login" %}" method="POST">
+    <form action="{% url "login" %}" method="POST" style="color:white;font-size: 20px; ">
         {% csrf_token %}
         {{ form.as_p }}
         <a href="{% url 'signup' %}"  style="color: rgb(160, 3, 110); margin-right: 15px;">
