@@ -50,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'codeCom.urls'
@@ -83,6 +85,12 @@ DATABASES = {
     }
 }
 
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -119,11 +127,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_DIR = BASE_DIR/"accounts/static" 
+STATIC_DIR = BASE_DIR/"static" 
+# can just add this directly inside below dir;
+# eg:
+    # STATICFILES_DIRS = [
+    #      BASE_DIR/"static"
+    # ]
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
-
+STATIC_ROOT = BASE_DIR/"staticfiles"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
