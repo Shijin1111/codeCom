@@ -30,5 +30,7 @@ class Problem(models.Model):
     title = models.CharField(max_length=200)  
     description = models.TextField()           
     img = models.ImageField(upload_to='problems/', blank=True, null=True)  
+    # The field can be left blank in forms (blank=True).
+    # It can store NULL in the database if no image is uploaded (null=True).
     created_at = models.DateTimeField(auto_now_add=True)  
     updated_at = models.DateTimeField(auto_now=True)   
